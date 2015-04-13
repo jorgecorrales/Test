@@ -1,0 +1,32 @@
+String servidorSMTP = "smtp.gmail.com";
+		String puerto = "587";
+		String usuario = "ops-alarmas@conectium.com";
+		String password = "soportecntm2013";
+   
+		String destino = "jorgeslpc@hotmail.com";
+		String asunto = "Alertas con contenido vacio";
+		String mensaje = body;
+ 
+		Properties props = new Properties();
+ 
+		props.put("mail.debug", "true");
+		props.put("mail.smtp.auth", true);
+		props.put("mail.smtp.starttls.enable", true);
+		props.put("mail.smtp.host", servidorSMTP);
+		props.put("mail.smtp.port", puerto);
+ 
+		Session session = Session.getInstance(props, null);
+ 
+ 
+   		MimeMessage message = new MimeMessage(session);
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+     destino));
+  		message.setSubject(asunto);
+   		message.setSentDate(new Date());
+   		message.setText(mensaje);
+    
+   		Transport tr = session.getTransport("smtp");
+   		tr.connect(servidorSMTP, usuario, password);
+   		message.saveChanges();  
+   		tr.sendMessage(message, message.getAllRecipients());
+   		tr.close();

@@ -1,0 +1,34 @@
+		
+
+		//Sesion de correo del objeto
+  		Properties props = new Properties();
+        	props.put("mail.smtp.host", "smtp.gmail.com");
+       		props.put("mail.smtp.socketFactory.port", "465");
+  		props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+      		props.put("mail.smtp.auth", "true");
+        	props.put("mail.smtp.port", "465");
+ 
+		System.out.println("properties done");
+
+       		Session session = Session.getDefaultInstance(props,
+         		new javax.mail.Authenticator() {
+          			protected PasswordAuthentication getPasswordAuthentication() {
+           				return new PasswordAuthentication("jorgeslpc@gmail.com","j0463c044a135");
+    				}
+    			}
+     		); 
+
+		System.out.println("Session done");
+		System.out.println("Body " + body);
+
+		//Composición del correo electrónico
+ 		MimeMessage message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("jorgeslpc@gmail.com"));
+                message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+                message.setSubject("Alertas con Contenidos Vacios");
+                message.setText(body);
+		
+		System.out.println("Composition done");   
+		
+               //send message
+               Transport.send(message);
